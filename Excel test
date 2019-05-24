@@ -1,0 +1,320 @@
+Option Explicit
+
+Sub 連続実行()
+    Call jvn
+    Call tekisitu
+    Call product
+    Call taisaku
+    Call Syousai
+    Call benda
+End Sub
+
+Sub jvn() 'JVN番号
+    Dim rngjvn, varjvn
+    Dim myRange As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim k As Long
+    i = 2
+    
+    For Each myRange In Worksheets
+        myRange.Select
+        k = 1
+        varjvn = ActiveWorkbook.Worksheets("Main").Cells(6, "H")
+        Set rngjvn = myRange.Cells.Find(What:=varjvn, LookAt:=xlPart)
+        If myRange.Name = "Main" Then GoTo L1
+        ActiveWorkbook.Worksheets("Main").Cells(i, "G").Value = rngjvn
+        i = i + 1
+L1:
+    Next myRange
+       
+End Sub
+
+Sub ReplaceSamp1()
+
+ Range("J1:J6").Select
+ With Selection
+   .Replace What:="おける", Replacement:="", LookAt:=xlPart
+ End With
+
+End Sub
+
+Sub セル内の空白削除() 'タブけしｗ
+    Dim myStr As String
+    myStr = Replace(ActiveCell, vbTab, "")
+    ActiveCell.Value = myStr
+End Sub
+
+Sub セルの改行削除() '改行コードは確かに消えました。
+    Dim myStr As String
+    myStr = Replace(ActiveCell, vbLf, "・")
+    ActiveCell.Value = myStr
+End Sub
+
+Sub 整理1()  '点を一つに
+    Dim myStr As String
+    myStr = Replace(ActiveCell, "・・", "・")
+    ActiveCell.Value = myStr
+End Sub
+
+Sub seiri() '整理
+    Dim myStr As String
+    myStr = Replace(ActiveCell, "・", vbLf + "・")
+    ActiveCell.Value = myStr
+End Sub
+
+Sub 変換() '整理
+    Dim myStr As String
+    myStr = Replace(ActiveCell, "おける", "")
+    ActiveCell.Value = myStr
+End Sub
+
+Sub zeijakusei() 'ぜい弱性
+    Dim Searchword
+    Dim Value1
+    Dim i
+    Dim sh As Worksheet
+    Searchword = "脆弱性"
+    i = 2
+    
+    With ThisWorkbook
+    For Each sh In Worksheets
+        sh.Select
+        If sh.Name = "Main" Then GoTo L1
+        Set Value1 = sh.Cells.Find(What:=Searchword, LookAt:=xlPart)
+        ActiveWorkbook.Worksheets("Main").Cells(i, "J") = Value1
+        i = i + 1
+L1:
+    Next sh
+    
+    End With
+
+End Sub
+
+
+Sub tekisitu() 'CVE番号
+    Dim Searchword
+    Dim Value1
+    Dim i
+    Dim sh As Worksheet
+    Searchword = "CVE-"
+    i = 2
+    
+    With ThisWorkbook
+    For Each sh In Worksheets
+        sh.Select
+        If sh.Name = "Main" Then GoTo L1
+        Set Value1 = sh.Cells.Find(What:=Searchword, LookAt:=xlPart)
+        ActiveWorkbook.Worksheets("Main").Cells(i, "D") = Value1
+        i = i + 1
+L1:
+    Next sh
+    
+    End With
+
+End Sub
+
+Sub product() '対象製品
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim myRange As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim k As Long
+    R = 32
+    i = 2
+    
+    For Each myRange In Worksheets
+        myRange.Select
+        k = 1
+        VarSearch = ActiveWorkbook.Worksheets("Main").Cells(7, "H")
+        varEnd = ActiveWorkbook.Worksheets("Main").Cells(8, "H")
+        
+        Set rngSearch = myRange.Cells.Find(What:=VarSearch, LookAt:=xlWhole)
+        Set rngEnd = myRange.Cells.Find(What:=varEnd, LookAt:=xlPart)
+        n = rngEnd.Row - rngSearch.Row - 1
+        If myRange.Name = "Main" Then GoTo L1
+        For R = 1 To n
+            ActiveWorkbook.Worksheets("Main").Cells(i, "C").Value = myRange.Cells(rngSearch.Row + k, "A")
+            i = i + 1
+            k = k + 1
+        Next R
+L1:
+    Next myRange
+       
+End Sub
+
+Sub taisaku() '対策
+    Dim rngTaisaku, varTaisaku
+    Dim myRange As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim k As Long
+    i = 2
+    
+    For Each myRange In Worksheets
+        myRange.Select
+        k = 1
+        varTaisaku = ActiveWorkbook.Worksheets("Main").Cells(5, "H")
+        Set rngTaisaku = myRange.Cells.Find(What:=varTaisaku, LookAt:=xlPart)
+        If myRange.Name = "Main" Then GoTo L1
+        ActiveWorkbook.Worksheets("Main").Cells(i, "F").Value = rngTaisaku
+        i = i + 1
+L1:
+    Next myRange
+       
+End Sub
+
+Sub Syousai() '詳細情報
+    Dim Searchword
+    Dim Value1
+    Dim i
+    Dim sh As Worksheet
+    Searchword = ActiveWorkbook.Worksheets("Main").Cells(4, "H")
+    i = 2
+    
+    With ThisWorkbook
+    For Each sh In Worksheets
+        sh.Select
+        If sh.Name = "Main" Then GoTo L1
+        Set Value1 = sh.Cells.Find(What:=Searchword, LookAt:=xlPart)
+        ActiveWorkbook.Worksheets("Main").Cells(i, "E") = Value1
+        i = i + 1
+L1:
+    Next sh
+    
+    End With
+
+End Sub
+
+Sub benda() 'ベンダ情報
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim myRange As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim k As Long
+    R = 32
+    i = 2
+    
+    For Each myRange In Worksheets
+        myRange.Select
+        k = 1
+        VarSearch = ActiveWorkbook.Worksheets("Main").Cells(2, "H")
+        varEnd = ActiveWorkbook.Worksheets("Main").Cells(3, "H")
+        
+        Set rngSearch = myRange.Cells.Find(What:=VarSearch, LookAt:=xlWhole)
+        Set rngEnd = myRange.Cells.Find(What:=varEnd, LookAt:=xlPart)
+        n = rngEnd.Row - rngSearch.Row - 1
+        If myRange.Name = "Main" Then GoTo L1
+        For R = 1 To n
+            ActiveWorkbook.Worksheets("Main").Cells(i, "a").Value = myRange.Cells(rngSearch.Row + k, "A")
+            i = i + 1
+            k = k + 1
+        Next R
+L1:
+    Next myRange
+       
+End Sub
+
+Sub セル結合からの左揃え()
+'
+' セル結合からの左揃え Macro
+'
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+    With Selection
+        .HorizontalAlignment = xlLeft
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = True
+    End With
+End Sub
+
+Sub EmptyCellDelete()
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim myRange As Worksheet
+    Dim i As Integer
+    Dim y As Integer
+    For Each myRange In Worksheets
+        myRange.Select
+        For y = 200 To 1 Step -1
+            If Application.WorksheetFunction.CountA(Rows(y)) = 0 Then
+            myRange.Rows(y).Delete
+            End If
+        Next y
+L1:
+    Next
+    
+End Sub
+
+Sub EmptyCellDelete1()
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim myRange As Worksheet
+    Dim i As Integer
+    Dim y As Integer
+    For Each myRange In Worksheets
+        myRange.Select
+        For y = 200 To 1 Step -1
+            If Application.WorksheetFunction.CountA(Columns(y)) = 0 Then
+            myRange.Columns(y).Delete
+            End If
+        Next y
+L1:
+    Next
+    
+End Sub
+
+Sub hoge1() 'テスト：特定のシートの1行から3行目に１，２，３
+    Dim ichiran As Worksheet
+    Dim c As Long
+    c = 1
+    For Each ichiran In Worksheets
+        Range("A" & c).Value = c
+        c = c + 1
+    Next
+End Sub
+
+Sub hoge2() 'テスト
+    Dim ichiran As Worksheet
+    Dim c As Long
+    c = 1
+    For Each ichiran In Worksheets
+        ichiran.Select
+        Range("B" & c).Value = c
+        c = c + 1
+    Next
+End Sub
+
+Sub hoge3() 'テスト
+    Dim ichiran As Worksheet
+    Dim c As Long
+    c = 1
+    For Each ichiran In Worksheets
+        ichiran.Range("C", c).Value = c
+        c = c + 1
+    Next
+End Sub
+
+
