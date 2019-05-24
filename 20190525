@@ -1,0 +1,119 @@
+Option Explicit
+
+Sub 連続実行3()
+    Call benda0
+    Call seihin0
+
+End Sub
+
+Sub 連続実行4()
+    Call prog2
+    Call seihin1
+    Call benda1
+    Call output
+End Sub
+
+Sub output() 'テキストに出力
+    
+    Dim R As Integer    '行番号
+    R = 1
+    Worksheets("記事").Activate
+    Open "C:\Users\q8043kts\Desktop\Mydata\tst.txt" For Output As #1
+
+    Do While Worksheets("記事").Cells(R, "B") <> ""
+    Print #1, Replace(Worksheets("記事").Cells(R, "B"), vbLf, vbCrLf)
+    R = R + 1
+    Loop
+  
+    Close #1
+
+End Sub
+
+Sub benda0()
+    Dim R As Integer    '行番号
+    Dim K As Integer
+    R = 2
+    K = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("single").Cells(R, "E") <> ""
+    Worksheets("記事").Cells(R, "C").Value = Worksheets("single").Cells(R, "E").Value
+    Worksheets("記事").Cells(R, "C").Replace What:=vbLf, Replacement:="", LookAt:=xlPart
+    
+    R = R + 1
+    Loop
+    
+    Do While Worksheets("記事").Cells(K, "C") <> ""
+        Worksheets("記事").Cells(K, "C").Value = "　" & Worksheets("記事").Cells(K, "C").Value
+    K = K + 1
+    Loop
+    
+End Sub
+
+Sub seihin0()
+    Dim R As Integer    '行番号
+    Dim K As Integer
+    R = 2
+    K = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("single").Cells(R, "B") <> ""
+    Worksheets("記事").Cells(R, "A").Value = Worksheets("single").Cells(R, "B").Value
+    Worksheets("記事").Cells(R, "A").Replace What:=vbLf, Replacement:="", LookAt:=xlPart
+     R = R + 1
+    Loop
+    Do While Worksheets("記事").Cells(K, "A") <> ""
+        Worksheets("記事").Cells(K, "A").Value = "　" & Worksheets("記事").Cells(K, "A").Value
+    K = K + 1
+    Loop
+End Sub
+
+Sub seihin1()
+    Dim R As Integer    '行番号
+    R = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("記事").Cells(R, "A") <> ""
+    
+    If Worksheets("記事").Cells(4, "B").Value <> "" Then
+        Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & vbLf & Worksheets("記事").Cells(R, "A").Value
+    End If
+    
+    If Worksheets("記事").Cells(4, "B").Value = "" Then
+        Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & Worksheets("記事").Cells(R, "A").Value
+    End If
+    
+    R = R + 1
+    Loop
+    Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & vbLf
+End Sub
+
+Sub benda1()
+    Dim R As Integer    '行番号
+    R = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("記事").Cells(R, "C") <> ""
+    
+    If Worksheets("記事").Cells(10, "B").Value <> "" Then
+        Worksheets("記事").Cells(10, "B").Value = Worksheets("記事").Cells(10, "B").Value & vbLf & Worksheets("記事").Cells(R, "C").Value
+    End If
+    
+    If Worksheets("記事").Cells(10, "B").Value = "" Then
+        Worksheets("記事").Cells(10, "B").Value = Worksheets("記事").Cells(10, "B").Value & Worksheets("記事").Cells(R, "C").Value
+    End If
+    
+    R = R + 1
+    Loop
+    Worksheets("記事").Cells(10, "B").Value = Worksheets("記事").Cells(10, "B").Value & vbLf
+End Sub
+
+Sub prog2()
+    Worksheets("記事").Cells(2, "B").Value = Worksheets("single").Cells(2, "A").Value
+    'Worksheets("記事").Cells(4, "B").Value = Worksheets("single").Cells(2, "B").Value
+    Worksheets("記事").Cells(6, "B").Value = Worksheets("single").Cells(2, "C").Value
+    Worksheets("記事").Cells(8, "B").Value = Worksheets("single").Cells(2, "D").Value
+    'Worksheets("記事").Cells(10, "B").Value = Worksheets("single").Cells(2, "E").Value
+    Worksheets("記事").Cells(12, "B").Value = Worksheets("single").Cells(2, "F").Value
+End Sub
+
