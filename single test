@@ -1,0 +1,612 @@
+Option Explicit
+
+Sub 本気の連続実行やで()
+    Worksheets("Main").Activate
+    Call jvn
+    Worksheets("Main").Activate
+    Call tekisitu
+    Worksheets("Main").Activate
+    Call product
+    Worksheets("Main").Activate
+    Call taisaku
+    Worksheets("Main").Activate
+    Call Syousai
+    Worksheets("Main").Activate
+    Call benda
+    Worksheets("Main").Activate
+    Call zeijakusei
+    Worksheets("Main").Activate
+    Call ReplaceSamp1
+    Worksheets("Main").Activate
+    Call hennkou
+    Worksheets("Main").Activate
+    Call BendaSplit
+    Worksheets("Main").Activate
+    Call ProductSplit
+    Worksheets("Main").Activate
+    Call suriawase
+    Worksheets("Main").Activate
+    Call suriawase2
+    Worksheets("Main").Activate
+    Call ReplaceSampl2
+    Worksheets("Main").Activate
+    Call benda0
+    Worksheets("Main").Activate
+    Call seihin0
+    Worksheets("Main").Activate
+    Call prog2
+    Worksheets("Main").Activate
+    Call seihin1
+    Worksheets("Main").Activate
+    Call benda1
+    Worksheets("記事").Activate
+    Call output
+    Worksheets("Main").Activate
+    Call clear
+    Worksheets("Main").Activate
+    Call a
+    Worksheets("Main").Activate
+    Call Macro2
+    Worksheets("Main").Activate
+End Sub
+
+Sub 半角スペース文字コード変換()
+    Dim i As Integer
+    i = 0
+    For i = 1 To 12
+        For n = 1 To 30
+        MsgBox Hex(AscW(Worksheets("記事").Cells(i, "B").Value))
+        Next
+    Next
+End Sub
+
+Sub jvn() 'JVN番号
+    Dim rngjvn, varjvn
+    Dim sh As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim K As Long
+    i = 2
+    
+    For Each sh In Worksheets
+        sh.Select
+            K = 1
+        varjvn = ActiveWorkbook.Worksheets("Main").Cells(6, "H")
+        
+        If sh.Name = "Main" Then GoTo L1
+        If sh.Name = "database" Then GoTo L1
+        If sh.Name = "single" Then GoTo L1
+        If sh.Name = "many" Then GoTo L1
+        If sh.Name = "記事" Then GoTo L1
+        
+        Set rngjvn = sh.Cells.Find(What:=varjvn, LookAt:=xlPart)
+        
+        ActiveWorkbook.Worksheets("Main").Cells(i, "G").Value = rngjvn
+        i = i + 1
+L1:
+    Next sh
+       
+End Sub
+
+Sub zeijakusei() 'ぜい弱性
+    Dim Searchword
+    Dim Value1
+    Dim i
+    Dim sh As Worksheet
+    Searchword = "脆弱性"
+    i = 2
+    
+    With ThisWorkbook
+    For Each sh In Worksheets
+        sh.Select
+        If sh.Name = "Main" Then GoTo L1
+        If sh.Name = "database" Then GoTo L1
+        If sh.Name = "single" Then GoTo L1
+        If sh.Name = "many" Then GoTo L1
+        If sh.Name = "記事" Then GoTo L1
+        
+        Set Value1 = sh.Cells.Find(What:=Searchword, LookAt:=xlPart)
+        ActiveWorkbook.Worksheets("Main").Cells(i, "J") = Value1
+        i = i + 1
+L1:
+    Next sh
+    
+    End With
+End Sub
+
+
+Sub tekisitu() 'CVE番号
+    Dim Searchword
+    Dim Value1
+    Dim i
+    Dim sh As Worksheet
+    Searchword = "CVE-"
+    i = 2
+    
+    With ThisWorkbook
+    For Each sh In Worksheets
+        sh.Select
+        If sh.Name = "Main" Then GoTo L1
+        If sh.Name = "database" Then GoTo L1
+        If sh.Name = "single" Then GoTo L1
+        If sh.Name = "many" Then GoTo L1
+        If sh.Name = "記事" Then GoTo L1
+        
+        Set Value1 = sh.Cells.Find(What:=Searchword, LookAt:=xlPart)
+        ActiveWorkbook.Worksheets("Main").Cells(i, "D") = Value1
+        i = i + 1
+L1:
+    Next sh
+    
+    End With
+
+End Sub
+
+Sub product() '対象製品
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim sh As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim K As Long
+    R = 32
+    i = 2
+    
+    For Each sh In Worksheets
+        sh.Select
+        K = 1
+        VarSearch = ActiveWorkbook.Worksheets("Main").Cells(7, "H")
+        varEnd = ActiveWorkbook.Worksheets("Main").Cells(8, "H")
+        
+        If sh.Name = "Main" Then GoTo L1
+        If sh.Name = "database" Then GoTo L1
+        If sh.Name = "single" Then GoTo L1
+        If sh.Name = "many" Then GoTo L1
+        If sh.Name = "記事" Then GoTo L1
+        
+        Set rngSearch = sh.Cells.Find(What:=VarSearch, LookAt:=xlWhole)
+        Set rngEnd = sh.Cells.Find(What:=varEnd, LookAt:=xlPart)
+        n = rngEnd.Row - rngSearch.Row - 1
+        
+        For R = 1 To n
+            ActiveWorkbook.Worksheets("Main").Cells(i, "C").Value = sh.Cells(rngSearch.Row + K, "A")
+            i = i + 1
+            K = K + 1
+        Next R
+L1:
+    Next sh
+       
+End Sub
+
+Sub taisaku() '対策
+    Dim rngTaisaku, varTaisaku
+    Dim sh As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim K As Long
+    i = 2
+    
+    For Each sh In Worksheets
+        sh.Select
+        K = 1
+        varTaisaku = ActiveWorkbook.Worksheets("Main").Cells(5, "H")
+        
+        If sh.Name = "Main" Then GoTo L1
+        If sh.Name = "database" Then GoTo L1
+        If sh.Name = "single" Then GoTo L1
+        If sh.Name = "many" Then GoTo L1
+        If sh.Name = "記事" Then GoTo L1
+        
+        Set rngTaisaku = sh.Cells.Find(What:=varTaisaku, LookAt:=xlPart)
+        
+        ActiveWorkbook.Worksheets("Main").Cells(i, "F").Value = rngTaisaku
+        i = i + 1
+L1:
+    Next sh
+       
+End Sub
+
+Sub Syousai() '詳細情報
+    Dim Searchword
+    Dim Value1
+    Dim i
+    Dim sh As Worksheet
+    Searchword = ActiveWorkbook.Worksheets("Main").Cells(4, "H")
+    i = 2
+    
+    With ThisWorkbook
+    For Each sh In Worksheets
+        sh.Select
+        If sh.Name = "Main" Then GoTo L1
+        If sh.Name = "database" Then GoTo L1
+        If sh.Name = "single" Then GoTo L1
+        If sh.Name = "many" Then GoTo L1
+        If sh.Name = "記事" Then GoTo L1
+        
+        Set Value1 = sh.Cells.Find(What:=Searchword, LookAt:=xlPart)
+        ActiveWorkbook.Worksheets("Main").Cells(i, "E") = Value1
+        i = i + 1
+L1:
+    Next sh
+    
+    End With
+
+End Sub
+
+Sub benda() 'ベンダ情報
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim sh As Worksheet
+    Dim i As Integer
+    Dim n As Integer
+    Dim R As Integer
+    Dim K As Long
+    R = 32
+    i = 2
+    
+    For Each sh In Worksheets
+        sh.Select
+        K = 1
+        VarSearch = ActiveWorkbook.Worksheets("Main").Cells(2, "H")
+        varEnd = ActiveWorkbook.Worksheets("Main").Cells(3, "H")
+        
+        If sh.Name = "Main" Then GoTo L1
+        If sh.Name = "database" Then GoTo L1
+        If sh.Name = "single" Then GoTo L1
+        If sh.Name = "many" Then GoTo L1
+        If sh.Name = "記事" Then GoTo L1
+        
+        Set rngSearch = sh.Cells.Find(What:=VarSearch, LookAt:=xlWhole)
+        Set rngEnd = sh.Cells.Find(What:=varEnd, LookAt:=xlPart)
+        n = rngEnd.Row - rngSearch.Row - 1
+        
+        For R = 1 To n
+            ActiveWorkbook.Worksheets("Main").Cells(i, "a").Value = sh.Cells(rngSearch.Row + K, "A")
+            i = i + 1
+            K = K + 1
+        Next R
+L1:
+    Next sh
+       
+End Sub
+
+Sub ReplaceSamp1()
+
+ Range("J1:J6").Select
+ With Selection
+   .Replace What:="おける", Replacement:="", LookAt:=xlPart
+ End With
+
+End Sub
+
+Sub hennkou()
+
+    Range("A1:A6").Select
+    With Selection
+     .Replace What:=vbTab, Replacement:="", LookAt:=xlPart
+     .Replace What:=vbLf, Replacement:="・", LookAt:=xlPart
+     .Replace What:="・・", Replacement:="・", LookAt:=xlPart
+     .Replace What:="・", Replacement:=vbLf + "・", LookAt:=xlPart
+    End With
+    
+    Range("C1:C6").Select
+    With Selection
+     .Replace What:=vbTab, Replacement:="", LookAt:=xlPart
+     .Replace What:=vbLf, Replacement:="・", LookAt:=xlPart
+     .Replace What:="・・", Replacement:="・", LookAt:=xlPart
+     .Replace What:="・", Replacement:=vbLf + "・", LookAt:=xlPart
+    End With
+    
+End Sub
+
+
+Sub EmptyCellDelete()
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim sh As Worksheet
+    Dim i As Integer
+    Dim y As Integer
+    For Each sh In Worksheets
+        sh.Select
+        For y = 200 To 1 Step -1
+            If Application.WorksheetFunction.CountA(Rows(y)) = 0 Then
+            sh.Rows(y).Delete
+            End If
+        Next y
+L1:
+    Next
+    
+End Sub
+
+Sub EmptyCellDelete1()
+    Dim rngSearch, VarSearch
+    Dim rngEnd, varEnd
+    Dim sh As Worksheet
+    Dim i As Integer
+    Dim y As Integer
+    For Each sh In Worksheets
+        sh.Select
+        For y = 200 To 1 Step -1
+            If Application.WorksheetFunction.CountA(Columns(y)) = 0 Then
+            sh.Columns(y).Delete
+            End If
+        Next y
+L1:
+    Next
+    
+End Sub
+
+Sub ReplaceSampl2() 'おけるをにに変えました。
+
+ Cells(2, "K").Select
+ With Selection
+   .Replace What:="!", Replacement:="", LookAt:=xlPart
+   .Replace What:=vbLf, Replacement:="", LookAt:=xlPart
+   .Replace What:="　", Replacement:="", LookAt:=xlPart
+
+ End With
+Cells(2, "L").Select
+ With Selection
+   .Replace What:="!", Replacement:="", LookAt:=xlPart
+   .Replace What:=vbLf, Replacement:="", LookAt:=xlPart
+   .Replace What:="　", Replacement:="", LookAt:=xlPart
+
+ End With
+End Sub
+
+Sub BendaSplit()
+    Dim i As Long
+    Dim a As Long
+    Dim b As Long
+    Dim c
+    b = 2
+    Dim tmp As Variant
+    a = 0
+    For i = 2 To 11
+        tmp = Split(Cells(i, "A"), vbLf)
+        For Each c In tmp
+            
+            Cells(b, "K") = tmp(a)
+            a = a + 1
+            b = b + 1
+        Next c
+    Next i
+End Sub
+
+Sub ProductSplit()
+    Dim i As Long
+    Dim a As Long
+    Dim b As Long
+    Dim c
+    b = 2
+    Dim tmp As Variant
+    a = 0
+    For i = 2 To 11
+        tmp = Split(Cells(i, "C"), vbLf)
+        For Each c In tmp
+            
+            Cells(b, "L") = tmp(a)
+            a = a + 1
+            b = b + 1
+        Next c
+    Next i
+End Sub
+
+Sub suriawase() 'ベンダ情報すりあわせ
+    Dim benda_data As Long
+    Dim database_data As Long
+    
+    Range("K1:K15").Select
+    With Selection
+     .Replace What:="・", Replacement:="", LookAt:=xlPart
+    End With
+    
+    For benda_data = 2 To 10
+        For database_data = 1 To 10
+        
+             If ActiveWorkbook.Worksheets("Main").Range("K" & benda_data).Value = "" Then
+                GoTo L2
+            End If
+            
+            If ActiveWorkbook.Worksheets("Main").Range("K" & benda_data).Value <> ActiveWorkbook.Worksheets("database").Range("A" & database_data).Value Then
+                GoTo L1
+            End If
+            
+            If ActiveWorkbook.Worksheets("Main").Range("K" & benda_data).Value = ActiveWorkbook.Worksheets("database").Range("A" & database_data).Value Then
+                 ActiveWorkbook.Worksheets("Main").Range("K" & benda_data).Value = "!" & "　" & ActiveWorkbook.Worksheets("Main").Range("K" & benda_data).Value
+                GoTo L2
+            End If
+L1:
+        Next database_data
+        ActiveWorkbook.Worksheets("Main").Range("K" & benda_data).Value = "・" & ActiveWorkbook.Worksheets("Main").Range("K" & benda_data).Value
+L2:
+    Next benda_data
+End Sub
+
+Sub suriawase2() 'ベンダ情報すりあわせ
+    Dim benda_data As Long
+    Dim database_data As Long
+    Range("L1:L15").Select
+    With Selection
+     .Replace What:="・", Replacement:="", LookAt:=xlPart
+    End With
+    For benda_data = 2 To 10
+        
+        For database_data = 1 To 10
+        
+             If ActiveWorkbook.Worksheets("Main").Range("L" & benda_data).Value = "" Then
+                GoTo L2
+            End If
+            
+            If ActiveWorkbook.Worksheets("Main").Range("L" & benda_data).Value <> ActiveWorkbook.Worksheets("database").Range("A" & database_data).Value Then
+                GoTo L1
+            End If
+            
+            If ActiveWorkbook.Worksheets("Main").Range("L" & benda_data).Value = ActiveWorkbook.Worksheets("database").Range("A" & database_data).Value Then
+                 ActiveWorkbook.Worksheets("Main").Range("L" & benda_data).Value = "!" & "　" & ActiveWorkbook.Worksheets("Main").Range("L" & benda_data).Value
+                GoTo L2
+            End If
+L1:
+        Next database_data
+        ActiveWorkbook.Worksheets("Main").Range("L" & benda_data).Value = "・" & ActiveWorkbook.Worksheets("Main").Range("L" & benda_data).Value
+L2:
+    Next benda_data
+End Sub
+
+Sub clear()
+    Worksheets("記事").Cells(2, "B").Value = ""
+    Worksheets("記事").Cells(4, "B").Value = ""
+    Worksheets("記事").Cells(6, "B").Value = ""
+    Worksheets("記事").Cells(8, "B").Value = ""
+    Worksheets("記事").Cells(10, "B").Value = ""
+    Worksheets("記事").Cells(12, "B").Value = ""
+End Sub
+
+Sub Macro2()
+    Dim i As Integer
+    
+    For i = 2 To 30
+        Worksheets("記事").Cells(i, "O").Value = ""
+        Worksheets("記事").Cells(i, "P").Value = ""
+    Next
+End Sub
+'
+' Macro2 Macro
+
+    'Worksheets("記事").Range("O2:P20").Select
+   ' Selection.ClearContents
+'End Sub
+
+Sub a()
+'
+' Macro1 Macro
+'
+
+'
+    Worksheets("Main").Range("G31,A2:A31,C2:G31,J2:J31").Select
+    ActiveWindow.ScrollColumn = 2
+    Worksheets("Main").Range("G31,A2:A31,C2:G31,J2:L31").Select
+    Worksheets("Main").Range("J2").Activate
+    Selection.ClearContents
+End Sub
+
+
+
+Sub output() 'テキストに出力
+
+   
+    
+    Dim R As Integer    '行番号
+    R = 1
+    Worksheets("記事").Activate
+
+    'MsgBox Hex(AscW(Worksheets("記事").Cells(2, "B").Value))
+    
+    Worksheets("記事").Cells(4, "B").Replace What:="!", Replacement:=vbLf, LookAt:=xlPart
+    Worksheets("記事").Cells(10, "B").Replace What:="!", Replacement:=vbLf, LookAt:=xlPart
+    Open "C:\Users\kouhe\Desktop\a.txt" For Output As #1
+
+    Do While Worksheets("記事").Cells(R, "B") <> ""
+    Worksheets("記事").Cells(R, "B").Select
+    
+     Print #1, Replace(Worksheets("記事").Cells(R, "B"), vbLf, vbCrLf)
+    R = R + 1
+    Loop
+  
+    Close #1
+
+End Sub
+
+Sub benda0() 'シングルシートからベンダ情報を持ってくる、その際改行を消し去る、先頭に空白追加
+    Dim R As Integer    '行番号
+    Dim K As Integer
+    R = 2
+    K = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("single").Cells(R, "E") <> ""
+    Worksheets("記事").Cells(R, "O").Value = Worksheets("single").Cells(R, "E").Value
+    Worksheets("記事").Cells(R, "O").Replace What:=vbLf, Replacement:="", LookAt:=xlPart
+    
+    R = R + 1
+    Loop
+    
+    Do While Worksheets("記事").Cells(K, "O") <> ""
+        Worksheets("記事").Cells(K, "O").Value = "　" & Worksheets("記事").Cells(K, "O").Value
+    K = K + 1
+    Loop
+    
+End Sub
+
+Sub seihin0()
+    Dim R As Integer    '行番号
+    Dim K As Integer
+    R = 2
+    K = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("single").Cells(R, "B") <> ""
+    Worksheets("記事").Cells(R, "P").Value = Worksheets("single").Cells(R, "B").Value
+    'Worksheets("記事").Cells(R, "P").Replace What:=vbLf, Replacement:="", LookAt:=xlPart
+     R = R + 1
+    Loop
+    Do While Worksheets("記事").Cells(K, "P") <> ""
+        Worksheets("記事").Cells(K, "P").Value = "　" & Worksheets("記事").Cells(K, "P").Value
+    K = K + 1
+    Loop
+End Sub
+
+Sub seihin1()
+    Dim R As Integer    'ベンダ情報を追加していっている。また、最初からだった場合は改行を入れない。
+    R = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("記事").Cells(R, "P") <> ""
+    
+    If Worksheets("記事").Cells(4, "B").Value <> "" Then
+        Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & vbLf & Worksheets("記事").Cells(R, "P").Value
+    End If
+    
+    If Worksheets("記事").Cells(4, "B").Value = "" Then
+        Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & Worksheets("記事").Cells(R, "P").Value
+    End If
+    
+    R = R + 1
+    Loop
+    Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & vbLf
+End Sub
+
+Sub benda1()
+    Dim R As Integer    '行番号
+    R = 2
+    Worksheets("記事").Activate
+
+    Do While Worksheets("記事").Cells(R, "O") <> ""
+    
+    If Worksheets("記事").Cells(10, "B").Value <> "" Then
+        Worksheets("記事").Cells(10, "B").Value = Worksheets("記事").Cells(10, "B").Value & vbLf & Worksheets("記事").Cells(R, "O").Value
+    End If
+    
+    If Worksheets("記事").Cells(10, "B").Value = "" Then
+        Worksheets("記事").Cells(10, "B").Value = Worksheets("記事").Cells(10, "B").Value & Worksheets("記事").Cells(R, "O").Value
+    End If
+    
+    R = R + 1
+    Loop
+    Worksheets("記事").Cells(10, "B").Value = Worksheets("記事").Cells(10, "B").Value & vbLf
+End Sub
+
+Sub prog2()
+    Worksheets("記事").Cells(2, "B").Value = "　" & Worksheets("single").Cells(2, "A").Value
+    'Worksheets("記事").Cells(4, "B").Value = Worksheets("single").Cells(2, "B").Value
+    Worksheets("記事").Cells(6, "B").Value = "　" & Worksheets("single").Cells(2, "C").Value
+    Worksheets("記事").Cells(8, "B").Value = "　" & Worksheets("single").Cells(2, "D").Value
+    'Worksheets("記事").Cells(10, "B").Value = Worksheets("single").Cells(2, "E").Value
+    Worksheets("記事").Cells(12, "B").Value = "　" & Worksheets("single").Cells(2, "F").Value
+End Sub
+
+
+
