@@ -1,0 +1,29 @@
+Sub 文章校正()
+    Dim R As Integer    '行番号
+    Dim K As Integer
+    R = 2
+    K = 2
+    Worksheets("Main").Activate
+    Cells(2, "C").Select
+    With Selection
+     .Replace What:="!", Replacement:="", LookAt:=xlPart
+      .Replace What:=vbLf, Replacement:="", LookAt:=xlPart
+      .Replace What:="　", Replacement:="", LookAt:=xlPart
+
+     End With
+     
+    Do While Worksheets("Main").Cells(R, "C") <> ""
+    
+    If Worksheets("記事").Cells(4, "B").Value <> "" Then
+        Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & vbLf & "　" & Worksheets("Main").Cells(R, "C").Value
+    End If
+    
+    If Worksheets("記事").Cells(4, "B").Value = "" Then
+        Worksheets("記事").Cells(4, "B").Value = "　" & Worksheets("Main").Cells(R, "C").Value
+    End If
+    
+    R = R + 1
+    Loop
+    Worksheets("記事").Cells(4, "B").Value = Worksheets("記事").Cells(4, "B").Value & vbLf
+    
+End Sub
